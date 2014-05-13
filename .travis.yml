@@ -4,5 +4,6 @@ node_js:
 before_install:
   - npm install -g grunt-cli bower tsd
 install:
+  - npm install
   - bower install
   - tsd reinstall
