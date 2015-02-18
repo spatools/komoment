@@ -1,6 +1,6 @@
 ﻿{
     "name": "komoment",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "description": "Knockout Moment (date) integration",
     "main": "grunt test",
     "scripts": {
