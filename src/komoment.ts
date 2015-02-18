@@ -211,7 +211,7 @@
 
         ko.extenders.moment = function (target: any, options: MomentExtenderOptions): any {
             options = options || {};
-            
+
             function setDate(newValue: any = null): void {
                 target.date = getMoment(newValue, options);
             }
