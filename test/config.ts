@@ -7,13 +7,13 @@ requirejs.config({
     //baseUrl: "../",
 
     paths: {
-        "knockout": "../bower_components/knockout.js/knockout.debug",
+        "knockout": "../bower_components/knockoutjs/dist/knockout.debug",
         "moment": "../bower_components/moment/moment",
         "komoment": "../src/komoment",
 
         "mocha": "../bower_components/mocha/mocha",
         "should": "../bower_components/should/should",
-        "sinon": "../bower_components/sinon/sinon"
+        "sinon": "../bower_components/sinon/lib/sinon"
     },
 
     shim: {
