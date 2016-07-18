@@ -56,17 +56,6 @@ module.exports = function (grunt) {
             }
         },
 
-        jshint: {
-            options: {
-                jshintrc: "jshint.json",
-            },
-
-            base: ["*.js"],
-            dev: ["<%= paths.src %>/**/*.js"],
-            dist: ["<%= paths.build %>/**/*.js"],
-            test: ["<%= paths.test %>/**/*.js"]
-        },
-
         tslint: {
             options: {
                 configuration: grunt.file.readJSON("tslint.json")
@@ -133,10 +122,6 @@ module.exports = function (grunt) {
                 files: ['<%= tslint.dev.src %>'],
                 tasks: ['tslint:dev']
             },
-            jshint: {
-                files: ['<%= jshint.dev.src %>'],
-                tasks: ['jshint:dev']
-            },
             test: {
                 files: ['<%= paths.test %>/*.*'],
                 tasks: ['test']
@@ -155,9 +140,9 @@ module.exports = function (grunt) {
 
     grunt.registerTask("declaration", ["copy:declaration", "fixdecla"]);
 
-    grunt.registerTask("build", ["tslint:dev", "ts:dist", "jshint:dist", "declaration"]);
-    grunt.registerTask("build-dev", ["tslint:dev", "ts:dev", "jshint:dev"]);
-    grunt.registerTask("build-test", ["build-dev", "tslint:test", "ts:test", "jshint:test"]);
+    grunt.registerTask("build", ["tslint:dev", "ts:dist", "declaration"]);
+    grunt.registerTask("build-dev", ["tslint:dev", "ts:dev"]);
+    grunt.registerTask("build-test", ["build-dev", "tslint:test", "ts:test"]);
 
     grunt.registerTask("test", ["build-test", "mocha:test"]);
     grunt.registerTask("btest", ["build-test", "connect:test"]);
