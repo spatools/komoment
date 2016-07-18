@@ -23,15 +23,13 @@ module.exports = function (grunt) {
             test: 'test'
         },
 
-        typescript: {
+        ts: {
             options: {
                 target: "es3",
                 module: "amd",
-                sourcemap: false,
+                sourceMap: false,
                 declaration: false,
-                comments: false,
-                disallowbool: true,
-                disallowimportmodule: true
+                comments: false
             },
             dev: {
                 src: "<%= paths.src %>/**/*.ts",
@@ -92,7 +90,11 @@ module.exports = function (grunt) {
         },
 
         mocha: {
-            test: ["<%= paths.test %>/index.html"]
+            test: ["<%= paths.test %>/index.html"],
+            options: {
+                log: true,
+                logErrors: true
+            }
         },
 
         clean: {
@@ -153,9 +155,9 @@ module.exports = function (grunt) {
 
     grunt.registerTask("declaration", ["copy:declaration", "fixdecla"]);
 
-    grunt.registerTask("build", ["tslint:dev", "typescript:dist", "jshint:dist", "declaration"]);
-    grunt.registerTask("build-dev", ["tslint:dev", "typescript:dev", "jshint:dev"]);
-    grunt.registerTask("build-test", ["build-dev", "tslint:test", "typescript:test", "jshint:test"]);
+    grunt.registerTask("build", ["tslint:dev", "ts:dist", "jshint:dist", "declaration"]);
+    grunt.registerTask("build-dev", ["tslint:dev", "ts:dev", "jshint:dev"]);
+    grunt.registerTask("build-test", ["build-dev", "tslint:test", "ts:test", "jshint:test"]);
 
     grunt.registerTask("test", ["build-test", "mocha:test"]);
     grunt.registerTask("btest", ["build-test", "connect:test"]);

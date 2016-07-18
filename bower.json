@@ -28,13 +28,12 @@
     "test"
   ],
   "dependencies": {
-    "requirejs": "^2.1.16",
-    "knockoutjs": "^3.2.0",
-    "moment": "~2.6.0"
+    "moment": "^2.14.1",
+    "knockout": "^3.4.0"
   },
   "devDependencies": {
-    "mocha": "^2.1.0",
-    "should": "^5.0.0",
-    "sinon": "^1.12.2"
+    "mocha": "^2.5.3",
+    "should": "^10.0.0",
+    "requirejs": "^2.2.0"
   }
 }

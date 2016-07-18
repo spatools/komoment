@@ -21,12 +21,15 @@ test/helpers/*.d.ts
 test/helpers/*.js
 test/helpers/*.js.map
 nuget/*.nupkg
+.baseDir.js
+.baseDir.ts
 
 # Dependencies
 packages/
 bower_components/
 node_modules/
 typings/
+.tscache/
 
 # =========================
 # Windows detritus
