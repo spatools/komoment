@@ -1,34 +1,43 @@
-/// <reference path="../../../typings/knockout/knockout.d.ts" />
-/// <reference path="../../../typings/moment/moment.d.ts" />
 
-interface MomentExtenderOptions {
-    format?: string;
-    unix?: boolean;
-    utc?: boolean;
-}
+declare module ko {
+    export interface BindingHandlers {
+        date: {
+            init(element: Node, valueAccessor: () => MaybeSubscribable<any[] | Object>, allBindingsAccessor: AllBindingsAccessor, viewModel: any, bindingContext: BindingContext<any>): void;
+            update(element: Node, valueAccessor: () => MaybeSubscribable<any[] | Object>, allBindingsAccessor: AllBindingsAccessor, viewModel: any, bindingContext: BindingContext<any>): void;
+        };
 
-interface KnockoutMoment {
-    getMoment(date: any, options: MomentExtenderOptions): Moment;
-    getValue(moment: Moment, options: MomentExtenderOptions): any;
-    getMomentDuration(timeSpan: string): Duration;
-}
+        moment: {
+            init(element: Node, valueAccessor: () => MaybeSubscribable<any[] | Object>, allBindingsAccessor: AllBindingsAccessor, viewModel: any, bindingContext: BindingContext<any>): void;
+            update(element: Node, valueAccessor: () => MaybeSubscribable<any[] | Object>, allBindingsAccessor: AllBindingsAccessor, viewModel: any, bindingContext: BindingContext<any>): void;
+        };
+    }
 
-interface KnockoutStatic {
-    moment: KnockoutMoment;
-}
+    export interface Extenders {
+        moment: (target: any, options: Object) => any;
+        momentDuration: (target: any, options: any) => any;
+    }
 
-interface KnockoutBindingHandlers {
-    date: KnockoutBindingHandler;
-    moment: KnockoutBindingHandler;
-}
+    export namespace moment {
+        export interface ExtenderOptions {
+            format?: string;
+            unix?: boolean;
+            utc?: boolean;
+        }
 
-interface KnockoutExtenders {
-    moment: (target: any, options: Object) => any;
-    momentDuration: (target: any, options: any) => any;
+        export function getMoment(date: any, options: ExtenderOptions): Moment;
+        export function getValue(moment: Moment, options: ExtenderOptions): any;
+        export function getMomentDuration(timeSpan: string): Duration;
+    }
 }
 
 declare module "komoment" {
-    var __komoment: KnockoutMoment;
+    export interface ExtenderOptions {
+        format?: string;
+        unix?: boolean;
+        utc?: boolean;
+    }
 
-    export = __komoment;
+    export function getMoment(date: any, options: ExtenderOptions): Moment;
+    export function getValue(moment: Moment, options: ExtenderOptions): any;
+    export function getMomentDuration(timeSpan: string): Duration;
 }

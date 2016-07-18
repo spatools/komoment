@@ -1,17 +1,12 @@
-/// <reference path="../_definitions.d.ts" />
 (function (factory) {
-    // Support three module loading scenarios
     if (typeof require === "function" && typeof exports === "object" && typeof module === "object") {
-        // [1] CommonJS/Node.js
-        var target = module.exports || exports; // module.exports is for Node.js
+        var target = module.exports || exports;
         factory(require("knockout"), require("moment"), target);
     }
     else if (typeof define === "function" && define.amd) {
-        // [2] AMD anonymous module
         define(["knockout", "moment", "exports"], factory);
     }
     else {
-        // [3] No module loader (plain <script> tag) - put directly in global namespace
         ko.moment = {};
         factory(ko, moment, ko.moment);
     }
@@ -69,8 +64,6 @@
             return moment.duration(options);
     }
     exports.getMomentDuration = getMomentDuration;
-    //#endregion
-    //#region Binding handlers
     handlers.moment = handlers.date = {
         init: function (element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
             var value = valueAccessor(), options = ko.toJS(value);
@@ -109,8 +102,6 @@
             }
         }
     };
-    //#endregion
-    //#region Extenders Methods
     var getSetsFunctions = ["milliseconds", "seconds", "minutes", "hours", "date", "day", "month", "year"], manipFunctions = ["add", "substract", "startOf", "endOf", "sod", "eod", "local", "utc"], displayFunctions = ["format", "from", "fromNow", "diff", "toDate", "valueOf", "unix", "isLeapYear", "zone", "daysInMonth", "isDST"], durationFunctions = ["humanize", "milliseconds", "asMilliseconds", "seconds", "asSeconds", "minutes", "asMinutes", "hours", "asHours", "days", "asDays", "months", "asMonths", "years", "asYears"];
     function registerGetSetFunction(target, fn, options) {
         target[fn] = function () {
@@ -161,8 +152,6 @@
             registerDurationFunction(target, durationFunctions[i]);
         }
     }
-    //#endregion
-    //#region Extenders
     ko.extenders.moment = function (target, options) {
         options = options || {};
         function setDate(newValue) {
@@ -188,5 +177,4 @@
         registerDurationFunctions(target);
         return target;
     };
-    //#endregion
 }));
