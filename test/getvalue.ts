@@ -12,7 +12,7 @@ describe("komoment.getValue", () => {
 
             result = komoment.getValue(mom, {});
 
-        result.should.be.a.string;
+        result.should.be.a.String;
         result.should.equal(date.toISOString());
     });
 
@@ -23,7 +23,7 @@ describe("komoment.getValue", () => {
             result = komoment.getValue(mom, { format: "YYYY-MM-DDTHH:mm:ss" }),
             expected = date.toISOString().replace("Z", "").replace(/\.\d+$/, "");
 
-        result.should.be.a.string;
+        result.should.be.a.String;
         result.should.equal(expected);
     });
 
@@ -34,7 +34,7 @@ describe("komoment.getValue", () => {
             result = komoment.getValue(mom, { utc: true, format: "YYYY-MM-DDTHH:mm:ss" }),
             expected = date.toISOString().replace("Z", "").replace(/\.\d+$/, "");
 
-        result.should.be.a.string;
+        result.should.be.a.String;
         result.should.equal(expected);
     });
 
@@ -45,7 +45,7 @@ describe("komoment.getValue", () => {
             result = komoment.getValue(mom, { unix: true }),
             expected = date.getTime();
 
-        result.should.be.a.number;
+        result.should.be.a.Number;
         result.should.equal(expected);
     });
 

@@ -1,19 +1,15 @@
-﻿/// <reference path="../typings/requirejs/require.d.ts" />
-/// <reference path="../typings/mocha/mocha.d.ts" />
-/// <reference path="../typings/should/should.d.ts" />
-/// <reference path="../typings/sinon/sinon.d.ts" />
+﻿/// <reference path="_test.d.ts" />
 
 requirejs.config({
     //baseUrl: "../",
 
     paths: {
-        "knockout": "../bower_components/knockoutjs/dist/knockout.debug",
+        "knockout": "../bower_components/knockout/dist/knockout.debug",
         "moment": "../bower_components/moment/moment",
         "komoment": "../src/komoment",
 
         "mocha": "../bower_components/mocha/mocha",
-        "should": "../bower_components/should/should",
-        "sinon": "../bower_components/sinon/lib/sinon"
+        "should": "../bower_components/should/should"
     },
 
     shim: {
@@ -27,8 +23,8 @@ requirejs.config({
 (<any>window).notrack = true;
 
 var tests = [
-    "getvalue",
-    "getmoment"
+    "./getvalue",
+    "./getmoment"
 ];
 
 require(tests, function () {

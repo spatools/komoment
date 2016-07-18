@@ -1,5 +1,7 @@
 /// <reference path="../_definitions.d.ts" />
 
+type KnockoutStatic = typeof ko;
+
 (function (factory) {
     // Support three module loading scenarios
     if (typeof require === "function" && typeof exports === "object" && typeof module === "object") {
@@ -17,15 +19,15 @@
         factory(ko, moment, ko.moment);
     }
 }
-    (function (ko: KnockoutStatic, moment: MomentStatic, exports: KnockoutMoment) {
+    (function (ko: KnockoutStatic, moment: MomentStatic, exports: typeof ko.moment) {
         var handlers = ko.bindingHandlers,
             extenders = ko.extenders;
 
         //#region Public Methods
 
-        function getMoment(date: string, options: MomentExtenderOptions): Moment;
-        function getMoment(date: number, options: MomentExtenderOptions): Moment;
-        function getMoment(date: any, options: MomentExtenderOptions): Moment {
+        function getMoment(date: string, options: ko.moment.ExtenderOptions): Moment;
+        function getMoment(date: number, options: ko.moment.ExtenderOptions): Moment;
+        function getMoment(date: any, options: ko.moment.ExtenderOptions): Moment {
             if (options.unix) {
                 return moment.unix(date);
             }
@@ -38,7 +40,7 @@
         }
         exports.getMoment = getMoment;
 
-        function getValue(moment: Moment, options: MomentExtenderOptions): any {
+        function getValue(moment: Moment, options: ko.moment.ExtenderOptions): any {
             if (!moment) {
                 return null;
             }
@@ -92,38 +94,55 @@
         //#region Binding handlers
 
         handlers.moment = handlers.date = {
-            init: function (element: HTMLElement, valueAccessor: () => any, allBindingsAccessor: () => any, viewModel: any, bindingContext: KnockoutBindingContext) {
-                var value = valueAccessor(),
-                    options = ko.toJS(value);
+            init: function (element: HTMLElement, valueAccessor: () => any, allBindingsAccessor: () => any, viewModel: any, bindingContext: ko.BindingContext<any>) {
+                const
+                    initial = valueAccessor(),
+                    unwrapped = ko.unwrap(initial),
+                    isOptions = typeof unwrapped === "object";
 
-                if (options === Object(options))
-                    value = options.value;
-                else
+                let options, value;
+                if (isOptions) {
+                    value = unwrapped.value;
+                    delete unwrapped.value;
+
+                    options = ko.toJS(unwrapped);
+                }
+                else {
+                    value = initial;
                     options = {};
+                }
 
                 if (ko.isWriteableObservable(value) && options.attr === "value") {
                     element.addEventListener("change", function (event) {
-                        var _moment = getMoment((<HTMLInputElement>element).value, options),
-                            opts = options;
-
-                        if (value.momentOptions)
-                            opts = value.momentOptions;
+                        const 
+                            _moment = getMoment((<HTMLInputElement>element).value, options),
+                            opts = value.momentOptions || options;
 
                         value(getValue(_moment, opts));
                     }, false);
                 }
             },
-            update: function (element: HTMLElement, valueAccessor: () => any, allBindingsAccessor: () => any, viewModel: any, bindingContext: KnockoutBindingContext) {
-                var value = valueAccessor(),
-                    options = ko.toJS(value);
+            update: function (element: HTMLElement, valueAccessor: () => any, allBindingsAccessor: () => any, viewModel: any, bindingContext: ko.BindingContext<any>) {
+                const
+                    initial = valueAccessor(),
+                    unwrapped = ko.unwrap(initial),
+                    isOptions = typeof unwrapped === "object";
 
-                if (options === Object(options))
-                    value = options.value;
-                else
+                let options, value;
+                if (isOptions) {
+                    value = unwrapped.value;
+                    delete unwrapped.value;
+
+                    options = ko.toJS(unwrapped);
+                }
+                else {
+                    value = initial;
                     options = {};
+                }
 
-                if (value && ko.unwrap(value)) {
-                    var _moment = (value.date && moment.isMoment(value.date)) ? value.date : getMoment(ko.unwrap(value), options),
+                if (unwrapped) {
+                    const
+                        _moment = (value.date && moment.isMoment(value.date)) ? value.date : getMoment(unwrapped, options),
                         text = getValue(_moment, options);
 
                     switch (options.attr || "text") {
@@ -145,14 +164,15 @@
 
         //#region Extenders Methods
 
-        var getSetsFunctions = ["milliseconds", "seconds", "minutes", "hours", "date", "day", "month", "year"],
+        const
+            getSetsFunctions = ["milliseconds", "seconds", "minutes", "hours", "date", "day", "month", "year"],
             manipFunctions = ["add", "substract", "startOf", "endOf", "sod", "eod", "local", "utc"],
             displayFunctions = ["format", "from", "fromNow", "diff", "toDate", "valueOf", "unix", "isLeapYear", "zone", "daysInMonth", "isDST"],
             durationFunctions = ["humanize", "milliseconds", "asMilliseconds", "seconds", "asSeconds", "minutes", "asMinutes", "hours", "asHours", "days", "asDays", "months", "asMonths", "years", "asYears"];
 
-        function registerGetSetFunction(target: any, fn: string, options: MomentExtenderOptions) {
+        function registerGetSetFunction(target: any, fn: string, options: ko.moment.ExtenderOptions) {
             target[fn] = function () {
-                var val = target.date[fn].apply(target.date, arguments);
+                const val = target.date[fn].apply(target.date, arguments);
 
                 if (arguments.length > 0)
                     target(getValue(target.date, options));
@@ -160,9 +180,9 @@
                 return val;
             };
         }
-        function registerManipFunction(target: any, fn: string, options: MomentExtenderOptions) {
+        function registerManipFunction(target: any, fn: string, options: ko.moment.ExtenderOptions) {
             target[fn] = function () {
-                var val = target.date[fn].apply(target.date, arguments);
+                const val = target.date[fn].apply(target.date, arguments);
 
                 target(getValue(target.date, options));
 
@@ -180,8 +200,8 @@
             };
         }
 
-        function registerMomentFunctions(target: any, options: MomentExtenderOptions) {
-            var i, len;
+        function registerMomentFunctions(target: any, options: ko.moment.ExtenderOptions) {
+            let i: number, len: number;
 
             i = 0; len = getSetsFunctions.length;
             for (; i < len; i++) {
@@ -198,6 +218,7 @@
                 registerDisplayFunction(target, displayFunctions[i]);
             }
         }
+        
         function registerDurationFunctions(target: any) {
             var i = 0, len = durationFunctions.length, fn;
             for (; i < len; i++) {
@@ -209,12 +230,8 @@
 
         //#region Extenders
 
-        ko.extenders.moment = function (target: any, options: MomentExtenderOptions): any {
+        ko.extenders.moment = function (target: any, options: ko.moment.ExtenderOptions): any {
             options = options || {};
-
-            function setDate(newValue: any = null): void {
-                target.date = getMoment(newValue, options);
-            }
 
             setDate(target());
             target.subscribe(setDate);
@@ -227,18 +244,22 @@
             };
 
             return target;
+            
+            function setDate(newValue: any = null): void {
+                target.date = getMoment(newValue, options);
+            }
         };
         ko.extenders.momentDuration = function (target: any, options: any): any {
-            function setDuration(newValue: string = null): void {
-                target.duration = getMomentDuration(newValue);
-            }
-
             setDuration(target());
             target.subscribe(setDuration);
 
             registerDurationFunctions(target);
 
             return target;
+            
+            function setDuration(newValue: string = null): void {
+                target.duration = getMomentDuration(newValue);
+            }
         };
 
         //#endregion
