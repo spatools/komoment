@@ -114,7 +114,7 @@ type KnockoutStatic = typeof ko;
 
                 if (ko.isWriteableObservable(value) && options.attr === "value") {
                     element.addEventListener("change", function (event) {
-                        const 
+                        const
                             _moment = getMoment((<HTMLInputElement>element).value, options),
                             opts = value.momentOptions || options;
 
@@ -218,7 +218,7 @@ type KnockoutStatic = typeof ko;
                 registerDisplayFunction(target, displayFunctions[i]);
             }
         }
-        
+
         function registerDurationFunctions(target: any) {
             var i = 0, len = durationFunctions.length, fn;
             for (; i < len; i++) {
@@ -244,7 +244,7 @@ type KnockoutStatic = typeof ko;
             };
 
             return target;
-            
+
             function setDate(newValue: any = null): void {
                 target.date = getMoment(newValue, options);
             }
@@ -256,7 +256,7 @@ type KnockoutStatic = typeof ko;
             registerDurationFunctions(target);
 
             return target;
-            
+
             function setDuration(newValue: string = null): void {
                 target.duration = getMomentDuration(newValue);
             }

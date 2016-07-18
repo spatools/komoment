@@ -66,28 +66,38 @@
     exports.getMomentDuration = getMomentDuration;
     handlers.moment = handlers.date = {
         init: function (element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
-            var value = valueAccessor(), options = ko.toJS(value);
-            if (options === Object(options))
-                value = options.value;
-            else
+            var initial = valueAccessor(), unwrapped = ko.unwrap(initial), isOptions = typeof unwrapped === "object";
+            var options, value;
+            if (isOptions) {
+                value = unwrapped.value;
+                delete unwrapped.value;
+                options = ko.toJS(unwrapped);
+            }
+            else {
+                value = initial;
                 options = {};
+            }
             if (ko.isWriteableObservable(value) && options.attr === "value") {
                 element.addEventListener("change", function (event) {
-                    var _moment = getMoment(element.value, options), opts = options;
-                    if (value.momentOptions)
-                        opts = value.momentOptions;
+                    var _moment = getMoment(element.value, options), opts = value.momentOptions || options;
                     value(getValue(_moment, opts));
                 }, false);
             }
         },
         update: function (element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
-            var value = valueAccessor(), options = ko.toJS(value);
-            if (options === Object(options))
-                value = options.value;
-            else
+            var initial = valueAccessor(), unwrapped = ko.unwrap(initial), isOptions = typeof unwrapped === "object";
+            var options, value;
+            if (isOptions) {
+                value = unwrapped.value;
+                delete unwrapped.value;
+                options = ko.toJS(unwrapped);
+            }
+            else {
+                value = initial;
                 options = {};
-            if (value && ko.unwrap(value)) {
-                var _moment = (value.date && moment.isMoment(value.date)) ? value.date : getMoment(ko.unwrap(value), options), text = getValue(_moment, options);
+            }
+            if (unwrapped) {
+                var _moment = (value.date && moment.isMoment(value.date)) ? value.date : getMoment(unwrapped, options), text = getValue(_moment, options);
                 switch (options.attr || "text") {
                     case "value":
                         element.value = text;
@@ -154,10 +164,6 @@
     }
     ko.extenders.moment = function (target, options) {
         options = options || {};
-        function setDate(newValue) {
-            if (newValue === void 0) { newValue = null; }
-            target.date = getMoment(newValue, options);
-        }
         setDate(target());
         target.subscribe(setDate);
         registerMomentFunctions(target, options);
@@ -166,15 +172,19 @@
             target(getValue(target.date, options));
         };
         return target;
+        function setDate(newValue) {
+            if (newValue === void 0) { newValue = null; }
+            target.date = getMoment(newValue, options);
+        }
     };
     ko.extenders.momentDuration = function (target, options) {
-        function setDuration(newValue) {
-            if (newValue === void 0) { newValue = null; }
-            target.duration = getMomentDuration(newValue);
-        }
         setDuration(target());
         target.subscribe(setDuration);
         registerDurationFunctions(target);
         return target;
+        function setDuration(newValue) {
+            if (newValue === void 0) { newValue = null; }
+            target.duration = getMomentDuration(newValue);
+        }
     };
 }));

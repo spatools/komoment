@@ -1,6 +1,6 @@
 {
   "name": "komoment",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Knockout Moment (date) integration",
   "author": "SPA Tools",
   "license": "MIT",
@@ -32,7 +32,6 @@
     "grunt-contrib-clean": "^1.0.0",
     "grunt-contrib-connect": "^1.0.2",
     "grunt-contrib-copy": "^1.0.0",
-    "grunt-contrib-jshint": "^1.0.0",
     "grunt-contrib-watch": "^1.0.0",
     "grunt-mocha": "^1.0.2",
     "grunt-nuget": "^0.1.5",
