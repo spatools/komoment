@@ -80,10 +80,36 @@ ko.extenders.momentDuration = function (target: any): any {
 //#region Private Methods
 
 const
-    getSetsFunctions = ["milliseconds", "seconds", "minutes", "hours", "date", "day", "month", "year"],
+    getSetsFunctions = ["milliseconds", "seconds", "minutes", "hours", "day", "month", "year"],
     manipFunctions = ["add", "substract", "startOf", "endOf", "sod", "eod", "local", "utc"],
     displayFunctions = ["format", "from", "fromNow", "diff", "toDate", "valueOf", "unix", "isLeapYear", "zone", "daysInMonth", "isDST"],
     durationFunctions = ["humanize", "milliseconds", "asMilliseconds", "seconds", "asSeconds", "minutes", "asMinutes", "hours", "asHours", "days", "asDays", "months", "asMonths", "years", "asYears"];
+
+function registerMomentFunctions(target: any, options: ExtenderOptions) {
+    let i: number, len: number;
+
+    i = 0; len = getSetsFunctions.length;
+    for (; i < len; i++) {
+        registerGetSetFunction(target, getSetsFunctions[i], options);
+    }
+
+    i = 0; len = manipFunctions.length;
+    for (; i < len; i++) {
+        registerManipFunction(target, manipFunctions[i], options);
+    }
+
+    i = 0; len = displayFunctions.length;
+    for (; i < len; i++) {
+        registerDisplayFunction(target, displayFunctions[i]);
+    }
+}
+
+function registerDurationFunctions(target: any) {
+    var i = 0, len = durationFunctions.length, fn;
+    for (; i < len; i++) {
+        registerDurationFunction(target, durationFunctions[i]);
+    }
+}
 
 function registerGetSetFunction(target: any, fn: string, options: ExtenderOptions) {
     target[fn] = function () {
@@ -113,32 +139,6 @@ function registerDurationFunction(target: any, fn: string) {
     target[fn] = function () {
         return target.duration ? target.duration[fn].apply(target.duration, arguments) : null;
     };
-}
-
-function registerMomentFunctions(target: any, options: ExtenderOptions) {
-    let i: number, len: number;
-
-    i = 0; len = getSetsFunctions.length;
-    for (; i < len; i++) {
-        registerGetSetFunction(target, getSetsFunctions[i], options);
-    }
-
-    i = 0; len = manipFunctions.length;
-    for (; i < len; i++) {
-        registerManipFunction(target, manipFunctions[i], options);
-    }
-
-    i = 0; len = displayFunctions.length;
-    for (; i < len; i++) {
-        registerDisplayFunction(target, displayFunctions[i]);
-    }
-}
-
-function registerDurationFunctions(target: any) {
-    var i = 0, len = durationFunctions.length, fn;
-    for (; i < len; i++) {
-        registerDurationFunction(target, durationFunctions[i]);
-    }
 }
 
 //#endregion

@@ -1,32 +1,21 @@
-﻿/// <reference path="_test.d.ts" />
+﻿const __karma__ = (<any>window).__karma__;
+const TEST_REGEXP = /(test)\/(.*)\.js$/i;
+const REPLACE_REGEXP = /(^\/base\/)|(\.js$)/g;
 
-requirejs.config({
-    //baseUrl: "../",
+require.config({
+    // Karma serves files under /base, which is the basePath from your config file
+    baseUrl: "/base",
 
     paths: {
-        "knockout": "../bower_components/knockout/dist/knockout.debug",
-        "moment": "../bower_components/moment/moment",
-        "komoment": "../src/komoment",
-
-        "mocha": "../bower_components/mocha/mocha",
-        "should": "../bower_components/should/should"
+        "knockout": "node_modules/knockout/build/output/knockout-latest.debug",
+        "moment": "node_modules/moment/moment",
+        "should": "node_modules/should/should",
+        "sinon": "node_modules/sinon/pkg/sinon"
     },
 
-    shim: {
-        mocha: {
-            exports: "mocha"
-        }
-    }
-});
+    deps: Object.keys(__karma__.files)
+        .filter(file => TEST_REGEXP.test(file) && file.indexOf("config") === -1 && file.indexOf("helpers") === -1)
+        .map(file => file.replace(REPLACE_REGEXP, "")),
 
-(<any>window).console = window.console || function () { return; };
-(<any>window).notrack = true;
-
-var tests = [
-    "./getvalue",
-    "./getmoment"
-];
-
-require(tests, function () {
-    mocha.run();
+    callback: __karma__.start
 });

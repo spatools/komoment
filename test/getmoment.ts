@@ -1,8 +1,7 @@
-﻿/// <reference path="_test.d.ts" />
+﻿import "should";
 
-import knockout = require("knockout");
-import moment = require("moment");
-import komoment = require("komoment");
+import * as moment from "moment";
+import * as komoment from "../src/index";
 
 describe("komoment.getMoment", () => {
 

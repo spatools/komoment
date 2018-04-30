@@ -105,8 +105,8 @@ module.exports = function (grunt) {
             reporters: ["dots"],
             browsers: ["PhantomJS"],
             files: [
-                { src: "node_modules/es6-promise/dist/**/*.js", included: false },
                 { src: "node_modules/knockout/**/*.js", included: false },
+                { src: "node_modules/moment/**/*.js", included: false },
                 { src: "node_modules/sinon/**/*.js", included: false },
                 { src: "node_modules/should/**/*.js", included: false },
                 { src: "src/**/*.{js,ts,js.map}", included: false },
