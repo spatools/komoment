@@ -4,7 +4,7 @@
   "homepage": "https://github.com/spatools/komoment",
   "license": "MIT",
   "version": "1.0.0",
-  "main": "dist/komoment.js",
+  "main": "index.js",
   "authors": [
     "SPA Tools"
   ],

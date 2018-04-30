@@ -1,4 +1,4 @@
-﻿# KoMoment [![Build Status](https://travis-ci.org/spatools/komoment.png)](https://travis-ci.org/spatools/komoment) [![Bower version](https://badge.fury.io/bo/komoment.png)](http://badge.fury.io/bo/komoment) [![NuGet version](https://badge.fury.io/nu/komoment.png)](http://badge.fury.io/nu/komoment)
+﻿# KoMoment [![Build Status](https://travis-ci.org/spatools/komoment.png)](https://travis-ci.org/spatools/komoment) [![Bower version](https://badge.fury.io/bo/komoment.png)](http://badge.fury.io/bo/komoment) [![npm version](https://badge.fury.io/js/komoment.svg)](https://badge.fury.io/js/komoment) [![NuGet version](https://badge.fury.io/nu/komoment.png)](http://badge.fury.io/nu/komoment)
 
 Knockout Moment (date) integration.
 
@@ -8,6 +8,12 @@ Using Bower:
 
 ```console
 $ bower install komoment --save
+```
+
+Using NPM: 
+
+```console
+$ npm install komoment --save
 ```
 
 Using NuGet: 
@@ -37,25 +43,21 @@ requirejs.config({
 #### Load modules
 
 ```javascript
-define(["komoment"], function(komoment) {
+define(["knockout", "komoment"], function(ko, komoment) {
     var date = ko.observable("2014-01-01T00:00:00Z").extend({ moment: { unix: true } });
 
 });
 ```
 
-### Browser (with built file)
+### CommonJS
 
-Include built script in your HTML file.
-
-```html
-<script type="text/javascript" src="path/to/knockout.js"></script>
-<script type="text/javascript" src="path/to/moment.js"></script>
-<script type="text/javascript" src="path/to/komoment.min.js"></script>
-```
+Install with NPM.
 
 #### Use it in your code
 
 ```javascript
+require("komoment");
+
 var date = ko.observable("2014-01-01T00:00:00Z").extend({ moment: { unix: true } });
 ```
 
