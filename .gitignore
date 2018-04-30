@@ -24,6 +24,16 @@ nuget/*.nupkg
 .baseDir.js
 .baseDir.ts
 
+# Build results
+[Dd]ist/
+[Dd]ebug/
+[Rr]elease/
+x64/
+build/
+[Bb]in/
+[Oo]bj/
+*.tmp.txt
+
 # Dependencies
 packages/
 bower_components/

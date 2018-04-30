@@ -1,11 +1,13 @@
 {
   "name": "komoment",
-  "version": "0.1.2",
+  "description": "Knockout Moment (date) integration",
+  "homepage": "https://github.com/spatools/komoment",
+  "license": "MIT",
+  "version": "1.0.0",
+  "main": "dist/komoment.js",
   "authors": [
     "SPA Tools"
   ],
-  "description": "Knockout Moment (date) integration",
-  "main": "dist/komoment.js",
   "keywords": [
     "knockout",
     "knockoutjs",
@@ -17,23 +19,8 @@
     "spatools",
     "amd"
   ],
-  "license": "MIT",
-  "homepage": "https://github.com/spatools/komoment",
-  "ignore": [
-    "**/.*",
-    "node_modules",
-    "bower_components",
-    "typings",
-    "nuget",
-    "test"
-  ],
   "dependencies": {
     "moment": "^2.14.1",
     "knockout": "^3.4.0"
-  },
-  "devDependencies": {
-    "mocha": "^2.5.3",
-    "should": "^10.0.0",
-    "requirejs": "^2.2.0"
   }
 }
